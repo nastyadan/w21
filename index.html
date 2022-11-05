@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>Поиск GIF</h1>
+    <form>
+        <label for="input">Введите ключевое слово</label>
+        <input type="text" id="input">
+        <input type="button" onclick="Search()" value="Поиск"></input>
+    </form>
+    <div id="div_with_gif"></div>
+    <script>
+        function Search() {
+            let keyword = document.getElementById("input").value;
+
+            fetch('https://api.giphy.com/v1/gifs/search?api_key=PjiLwMmVVWNVPtmUyuuyPvHpyRIHUt0v&limit=5&q=' + keyword)
+                .then(response => response.json())
+                .then(result => {
+
+                    let gifs = document.querySelector("#div_with_gif")
+                    gifs.innerHTML = ''
+                    if (result.data && result.data.length > 0) {
+                        result.data.forEach(item => {
+                            gifs.innerHTML += `<img src=${item.images.original.url}><br>`
+
+                        });
+                    }
+
+                })
+            console.log(keyword)
+            //   .catch(error => console.log(error))
+        }
+    </script>
+</body>
+
+</html>
